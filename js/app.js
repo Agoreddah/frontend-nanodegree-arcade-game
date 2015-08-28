@@ -1,3 +1,12 @@
+/*
+ * Project: Arcade game
+ * Course: Udacity Front-end nanodegree
+ * Author: Tomas Chudjak
+ * Last modification: 28.8.2015
+ * Version: 1.0
+ */
+
+
 'use strict';
 
 // Game variables
@@ -87,6 +96,8 @@ var Player = function() {
     this.heart = 'images/Heart.png';
 };
 
+// Update Player's position
+// Check if
 Player.prototype.update = function(x, y) {
     var newStepX = this.positionX + x;
     var newStepY = this.positionY + y;
@@ -115,7 +126,7 @@ Player.prototype.update = function(x, y) {
         }
     }
     else {
-        player.render();
+        this.render();
     }
 };
 
@@ -125,8 +136,8 @@ Player.prototype.update = function(x, y) {
  */
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.positionX, this.positionY);
-    player.renderPoints();
-    player.renderHearts();
+    this.renderPoints();
+    this.renderHearts();
 };
 
 // method to render player's points
@@ -184,6 +195,5 @@ document.addEventListener('keyup', function(e) {
         39: 'right',
         40: 'down'
     };
-
     player.handleInput(allowedKeys[e.keyCode]);
 });

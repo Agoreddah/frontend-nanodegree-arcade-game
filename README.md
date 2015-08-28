@@ -1,6 +1,10 @@
 frontend-nanodegree-arcade-game
 ===============================
 
-Students should use this rubric: https://www.udacity.com/course/viewer#!/c-ud015/l-3072058665/m-3072588797
+1. Open index.html in your favourite browser
+2. Use arrow keys to move your character
+3. Try to reach the water area. Each time you will receive one point
+4. Beware of nasty bugs !
+5. Every time you hit a bug, you loose one of your heart. When the number of hearts is below zero, you loose your points too.
 
-for self-checking their submission.
+Good luck & have fun !
