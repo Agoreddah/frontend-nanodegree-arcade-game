@@ -14,7 +14,9 @@
  * a little simpler to work with.
  */
 
-var Engine = (function(global) {
+'use strict';
+
+var Engine = (function (global) {
     /* Predefine the variables we'll be using within this scope,
      * create the canvas element, grab the 2D context for that canvas
      * set the canvas elements height/width and add it to the DOM.
@@ -57,7 +59,7 @@ var Engine = (function(global) {
          * function again as soon as the browser is able to draw another frame.
          */
         win.requestAnimationFrame(main);
-    };
+    }
 
     /* This function does some initial setup that should only occur once,
      * particularly setting the lastTime variable that is required for the
@@ -80,7 +82,22 @@ var Engine = (function(global) {
      */
     function update(dt) {
         updateEntities(dt);
-        // checkCollisions();
+        checkCollisions();
+    }
+
+    /*
+     * define the border sides of the enemy
+     * width of the enemy is 101, 1 px is the center
+     * each other half define the head part or back part of the enemy
+     */
+    function checkCollisions() {
+        allEnemies.forEach(function (enemy) {
+            var bugBack = Math.floor(enemy.positionX - ((bugWidth - 1) / 2)),
+                bugHead = Math.floor(enemy.positionX + ((bugWidth - 1) / 2));
+            if (bugBack <= player.positionX && player.positionX <= bugHead && player.positionY === enemy.positionY) {
+                removeHeart();
+            }
+        });
     }
 
     /* This is called by the update function  and loops through all of the
@@ -91,7 +108,7 @@ var Engine = (function(global) {
      * render methods.
      */
     function updateEntities(dt) {
-        allEnemies.forEach(function(enemy) {
+        allEnemies.forEach(function (enemy) {
             enemy.update(dt);
         });
         player.update();
@@ -151,8 +168,23 @@ var Engine = (function(global) {
         allEnemies.forEach(function(enemy) {
             enemy.render();
         });
-
         player.render();
+    }
+
+    /*
+     * Removes player's hearts
+     * Function is setting player back to the starting position
+     */
+    function removeHeart() {
+        player.hearts--;
+        player.positionX = startingX;
+        player.positionY = startingY;
+        if(player.hearts < 0) {
+            reset();
+        }
+        else {
+            console.log('hearts :' + player.hearts);
+        }
     }
 
     /* This function does nothing but it could have been a good place to
@@ -160,7 +192,9 @@ var Engine = (function(global) {
      * those sorts of things. It's only called once by the init() method.
      */
     function reset() {
-        // noop
+        player.points = startingPoints;
+        player.hearts = startingHearts;
+        console.log('game reset');
     }
 
     /* Go ahead and load all of the images we know we're going to need to
@@ -172,7 +206,8 @@ var Engine = (function(global) {
         'images/water-block.png',
         'images/grass-block.png',
         'images/enemy-bug.png',
-        'images/char-boy.png'
+        'images/char-boy.png',
+        'images/Heart.png'
     ]);
     Resources.onReady(init);
 
